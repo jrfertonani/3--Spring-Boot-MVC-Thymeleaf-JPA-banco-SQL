@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PessoaController {
@@ -43,9 +44,13 @@ public class PessoaController {
         return  andView;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/listapessoa")
-    public ModelAndView editar(@PathVariable("idpessoa") Long id){
+    @RequestMapping(method = RequestMethod.GET, value = "/editarpessoa/{idpessoa}")
+    public ModelAndView editar(@PathVariable("idpessoa") Long idpassoa){
+        Optional<Pessoa> pessoa = pessoaRepository.findById(idpassoa);
 
+        ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
+        modelAndView.addObject("pessoaobj", pessoa.get());
+        return modelAndView;
     }
 
 }
