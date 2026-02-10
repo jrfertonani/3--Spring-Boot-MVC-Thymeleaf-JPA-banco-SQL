@@ -1,7 +1,9 @@
 package back.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.jspecify.annotations.NonNull;
 
 import java.io.Serializable;
@@ -16,9 +18,15 @@ public class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Nome não pode ser nulo")
+    @NotEmpty(message = "Nome não pode ser vazio!")
+    @NotNull(message = "Nome não pode ser nulo!")
     private String nome;
+
+    @NotEmpty(message = "Sobre nome não pode ser vazio!")
+    @NotNull(message = "Sobre nome não pode ser nulo!")
     private String sobrenome;
+
+    @Min(value = 18, message = "Idade inválida!")
     private int idade;
 
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
