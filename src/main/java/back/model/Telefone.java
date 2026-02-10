@@ -1,6 +1,8 @@
 package back.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
@@ -13,6 +15,8 @@ public class Telefone implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Numero não pode ser vazio!")
+    @NotNull(message = "Numero não pode ser nulo!")
     private String numero;
     private String tipo;
 

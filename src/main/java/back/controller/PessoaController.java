@@ -110,7 +110,21 @@ public class PessoaController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "**/addfonePessoa/{pessoaid}")
-    public ModelAndView addfonePessoa(Telefone telefone, @PathVariable("pessoaid") Long pessoaid){
+    public ModelAndView addfonePessoa(@Valid Telefone telefone,BindingResult bindingResult, @PathVariable("pessoaid") Long pessoaid ){
+        if(bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
+            Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
+            modelAndView.addObject("pessoaobj", pessoa);
+            modelAndView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
+
+            List<String> msg = new ArrayList<String>();
+            for(ObjectError objectError : bindingResult.getAllErrors()){
+                msg.add(objectError.getDefaultMessage()); // vem das anotaçoes nas Entity
+            }
+            modelAndView.addObject("msg",msg);
+
+            return modelAndView;
+        }
 
         Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
         telefone.setPessoa(pessoa);
