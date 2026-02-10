@@ -1,11 +1,11 @@
 package back.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import org.jspecify.annotations.NonNull;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -16,9 +16,13 @@ public class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Nome não pode ser nulo")
     private String nome;
     private String sobrenome;
     private int idade;
+
+    @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Telefone> telefones;
 
     public Long getId() {
         return id;
@@ -51,4 +55,15 @@ public class Pessoa implements Serializable {
     public void setIdade(int idade) {
         this.idade = idade;
     }
+
+    public List<Telefone> getTelefones(){
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones){
+        this.telefones = telefones;
+    }
+
+
+
 }

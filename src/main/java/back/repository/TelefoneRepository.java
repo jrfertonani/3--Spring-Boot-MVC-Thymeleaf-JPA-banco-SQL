@@ -1,6 +1,6 @@
 package back.repository;
 
-import back.model.Pessoa;
+import back.model.Telefone;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,9 +10,8 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface PessoaRepository  extends CrudRepository<Pessoa, Long> {
+public interface TelefoneRepository extends CrudRepository<Telefone, Long> {
 
-    @Query("select p from Pessoa p where p.nome like %?1%")
-    List<Pessoa> findPessoaByName(String nome);
-
+    @Query("select t from Telefone t where t.pessoa.id = ?1")
+    public List<Telefone> getTelefones(Long pessoaid);
 }
