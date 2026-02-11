@@ -1,6 +1,6 @@
 package back.repository;
 
-import back.controller.Usuario;
+import back.model.Usuario;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

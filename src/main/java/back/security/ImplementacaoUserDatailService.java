@@ -1,6 +1,6 @@
 package back.security;
 
-import back.controller.Usuario;
+import back.model.Usuario;
 import back.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

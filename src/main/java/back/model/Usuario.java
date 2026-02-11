@@ -1,9 +1,6 @@
-package back.controller;
+package back.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +19,16 @@ public class Usuario implements UserDetails {
 
     private String login;
     private String senha;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuarios_role",
+                joinColumns = @JoinColumn(name = "usuario_id",
+                referencedColumnName = "id",
+                table = "usuario"),
+            inverseJoinColumns = @JoinColumn(name = "role_id",
+                referencedColumnName = "id",
+                table = "role"))
+    private List<Role> roles;
 
 
     public Long getId(){
