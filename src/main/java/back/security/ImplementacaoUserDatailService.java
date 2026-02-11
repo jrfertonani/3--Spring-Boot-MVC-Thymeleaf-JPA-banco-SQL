@@ -1,5 +1,6 @@
 package back.security;
 
+import back.controller.Usuario;
 import back.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,10 +13,17 @@ public class ImplementacaoUserDatailService implements UserDetailsService{
 
 
     @Autowired
-    private UsuarioRepository usuarioRepository
+    private UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+
+        Usuario usuario = usuarioRepository.findUserByLogin(username);
+
+        if(usuario == null){
+            throw new UsernameNotFoundException("Usuario não foi encontrado.");
+        }
+
+        return usuario;
     }
 }
