@@ -2,13 +2,16 @@ package back.security;
 
 import back.model.Usuario;
 import back.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class ImplementacaoUserDatailService implements UserDetailsService{
 
 
@@ -24,6 +27,9 @@ public class ImplementacaoUserDatailService implements UserDetailsService{
             throw new UsernameNotFoundException("Usuario não foi encontrado.");
         }
 
-        return usuario;
+        return new User(usuario.getLogin(), usuario.getPassword(),
+                usuario.isEnabled(), true,
+                true, true,
+                        usuario.getAuthorities());
     }
 }

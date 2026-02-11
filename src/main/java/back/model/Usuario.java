@@ -20,14 +20,11 @@ public class Usuario implements UserDetails {
     private String login;
     private String senha;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_role",
-                joinColumns = @JoinColumn(name = "usuario_id",
-                referencedColumnName = "id",
-                table = "usuario"),
-            inverseJoinColumns = @JoinColumn(name = "role_id",
-                referencedColumnName = "id",
-                table = "role"))
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private List<Role> roles;
 
 
@@ -58,7 +55,7 @@ public class Usuario implements UserDetails {
 
     @Override     // acessos
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles;
     }
 
     @Override     //senha
