@@ -27,10 +27,11 @@
 <body>
     <h1>Telefones</h1>
 
-    <div th:each="m : ${msg}">
-        <span th:text="${m}" style="color: red; font-weight: bold;"></span>
+    <div th:if="${not #lists.isEmpty(msg)}">
+        <div th:each="m : ${msg}" class="alert alert-danger" role="alert">
+            <span th:text="${m}" style="color: red; font-weight: bold;"></span>
+        </div>
     </div>
-
     <a class="waves-effect waves-light btn" href="/cadastropessoa">Cadastro pessoa</a>
     <div th:each="p: ${pessoaobj}">
        <div class="row">
@@ -43,7 +44,7 @@
 
     <h5>Telefones</h5>
     <div class="row">
-        <form th:action="@{/addfonePessoa/{pessoaid}(pessoaid=${pessoaobj.id})}" method="post" class="col s12">
+        <form th:action="@{/addfonePessoa/{pessoaid}(pessoaid=${pessoaobj.id})}" method="post" onsubmit="return validarCampos() ? true : false" class="col s12">
             <div class="row">
                 <div class="input-field col s6">
                     <label class="active" for="numero">Número:</label>
@@ -68,6 +69,18 @@
     </table>
 
 
+    <script type="text/javascript">
+        function validarCampos(){
+            numero = document.getElementyById('nomero').value;
+            tipo = document.getElementyById('tipo').value;
+                if(numero === '){
+                    alert('Numero deve ser infoemado!);
+                  return false;
+                }
+            alert(numero);
+            return true;
+        }
+    </script>
 
     <script type="text/javascript" src="/materialize/js/materialize.js"></script>
     <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
