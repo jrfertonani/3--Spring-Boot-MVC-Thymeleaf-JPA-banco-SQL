@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
+
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <style type="text/css">
         html { margin-top: 5%
           margin: 0;
@@ -30,7 +35,6 @@
 
         <div th:each = "m : ${msg}">
             <span th:text="${m}" style="color: red; font-weight: bold;"></span>
-
         </div>
 
         <div class="col s20">
@@ -49,7 +53,7 @@
                             <label for="sobrenome" class="active">Sobre nome</label>
                             <input th:field="*{sobrenome}" value="" type="text" placeholder="" id="sobrenome" name="sobrenome" class="validate">
                         </div>
-                        <div class="input-field col s3">
+                        <div class="input-field col s3"  sec:authorize="hasRole('ROLE_ADMIN')">
                             <label for="idade" class="active">Idade</label>
                             <input th:field="*{idade}" value="" type="text" placeholder="" id="Idade" name="idade" class="validate">
                         </div>
@@ -96,8 +100,6 @@
             <p style="color: red;">Nenhuma pessoa encontrada com esse nome.</p>
         </div>
 
-    <script type="text/javascript" src="/materialize/js/materialize.js"></script>
-    <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
 
 </body>
 </html>

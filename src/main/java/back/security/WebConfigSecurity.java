@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -20,17 +22,9 @@ public class WebConfigSecurity {
     @Autowired
     private ImplementacaoUserDatailService implementacaoUserDetailsService;
 
-    // 1. Define o codificador de senhas (ESSENCIAL para o BCrypt funcionar)
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    // 2. Substitui o InMemory pelo seu Service que consulta o Banco de Dados
-    // O Spring vai usar isso automaticamente no login
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(implementacaoUserDetailsService)
-                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -38,21 +32,38 @@ public class WebConfigSecurity {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Libera explicitamente a página de login e recursos estáticos
+                        .requestMatchers("/login", "/materialize/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/cadastropessoa").hasAnyRole("ADMIN")
-                        .requestMatchers("/materializa/**", "/css/**", "/js/**").permitAll()
+
+                        // Restringe o cadastro apenas para ADMIN
+                        .requestMatchers("/cadastropessoa/**").hasRole("ADMIN")
+
+                        // Qualquer outra requisição exige login
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/cadastropessoa", true)
+                        .failureUrl("/login?error=true")
+                        .permitAll() // Essencial para que a página de login seja acessível
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
 
         return http.build();
     }
+
+    // A maneira correta de ignorar recursos estáticos no Spring Boot 3:
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .requestMatchers("/materialize/**", "/static/**", "/resources/**", "/css/**", "/js/**");
+    }
 }
+

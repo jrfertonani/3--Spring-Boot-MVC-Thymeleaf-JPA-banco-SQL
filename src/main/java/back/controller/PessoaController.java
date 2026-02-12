@@ -25,6 +25,11 @@ public class PessoaController {
     @Autowired
     private TelefoneRepository telefoneRepository;
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
     public ModelAndView inicio(){
         ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
