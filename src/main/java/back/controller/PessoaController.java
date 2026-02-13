@@ -108,6 +108,7 @@ public class PessoaController {
             pessoas = pessoaRepository.findPessoaByName(nomepesquisa);
         }
 
+
         ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
         modelAndView.addObject("pessoas", pessoas);
         modelAndView.addObject("pessoaobj", new Pessoa());
