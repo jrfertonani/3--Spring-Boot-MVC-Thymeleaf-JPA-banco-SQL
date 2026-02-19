@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +41,25 @@ public class Pessoa implements Serializable {
 
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Telefone> telefones;
+
+    public Pessoa() {}
+
+    public Pessoa(Long id, String nome, String sobrenome, String cep, String rua,
+                  String bairro, String cidade, String uf, String ibge,
+                  String sexopessoa, int idade, List<Telefone> telefones) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.cep = cep;
+        this.rua = rua;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.ibge = ibge;
+        this.sexopessoa = sexopessoa;
+        this.idade = idade;
+        this.telefones = telefones;
+    }
 
     public Long getId() {
         return id;

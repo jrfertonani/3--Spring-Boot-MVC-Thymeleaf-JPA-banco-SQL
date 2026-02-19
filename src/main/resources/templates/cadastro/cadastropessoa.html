@@ -100,10 +100,18 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
                                  <input th:field="*{ibge}" id="ibge" name="ibge" placeholder="IBJE"
                                  >
                              </div>
-                            <div class="input-field col s3"  sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div class="input-field col s4"  sec:authorize="hasRole('ROLE_ADMIN')">
                                 <label for="idade" class="active">Idade</label>
                                 <input th:field="*{idade}"  type="text" placeholder="IDADE" id="Idade" name="idade" class="validate">
                             </div>
+
+                             <div class="input-field col s4">
+                                 <label for="profissao" class="active">Profissao</label>
+                                 <select class="browser-default" th:field="*{profissao}" id="profissao">
+                                     <option value="" disabled selected>--selecione--</option>
+                                 </select>
+                             </div>
+
                         </div>
                         <input class="waves-effect waves-light btn" type="submit" value="Salvar">
                         <a class="waves-effect waves-light btn" href="/listapessoas">lista de pessoas</a>
@@ -115,7 +123,7 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
 
     <fieldset>
         <legend>Campos de pesquisa</legend>
-        <form action="pesquisarpessoa" method="post" >
+        <form action="pesquisarpessoa" method="post" id="pesquisarpessoa">
             <div class="row">
                 <div class="input-field col s4">
                     <label for="nomepesquisa" class="active">Pesquisar por nome: </label>
@@ -130,7 +138,11 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
                     </select>
                 </div>
                 <div class="input-field col s12">
-                    <input class="waves-effect waves-light btn" type="submit" value="Buscar">
+                    <input class="waves-effect waves-light btn" type="submit" value="PDF"
+                           onclick="this.form.action='imprimirpdf'; this.form.method='get'">
+
+                    <input class="waves-effect waves-light btn" type="submit" value="Buscar"
+                           onclick="this.form.action='pesquisarpessoa'; this.form.method='post'">
                 </div>
             </div>
         </form>

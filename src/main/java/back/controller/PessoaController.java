@@ -3,7 +3,10 @@ package back.controller;
 import back.model.Pessoa;
 import back.model.Telefone;
 import back.repository.PessoaRepository;
+import back.repository.ProfissaoRepository;
 import back.repository.TelefoneRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,12 @@ public class PessoaController {
     @Autowired
     private TelefoneRepository telefoneRepository;
 
+    @Autowired
+    private ProfissaoRepository profissaoRepository;
+
+    @Autowired
+    private ReportUtil reportUtil;
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -36,6 +45,7 @@ public class PessoaController {
         modelAndView.addObject("pessoaobj", new Pessoa());
       //  Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
         modelAndView.addObject("pessoas");
+        modelAndView.addObject("profissoes", profissaoRepository.findAll());
         return modelAndView;
     }
 
@@ -101,18 +111,41 @@ public class PessoaController {
     public ModelAndView pesquisar(@RequestParam("nomepesquisa") String nomepesquisa,
                                   @RequestParam("pesqsexo") String pesqsexo) {
 
-        List<Pessoa> pessoas = new ArrayList<>();
-        if(pesqsexo != null && !pesqsexo.isEmpty()){
-            pessoas = pessoaRepository.findPessoaByNameSexo(nomepesquisa,pesqsexo);
-        }else {
-            pessoas = pessoaRepository.findPessoaByName(nomepesquisa);
-        }
+        List<Pessoa> pessoas = pesquisarLogica(nomepesquisa, pesqsexo);
 
-
-        ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
+        ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa"); // Verifique se o caminho da sua página está correto
         modelAndView.addObject("pessoas", pessoas);
         modelAndView.addObject("pessoaobj", new Pessoa());
         return modelAndView;
+    }
+
+    // Função auxiliar para não repetir código de busca
+    private List<Pessoa> pesquisarLogica(String nome, String sexo) {
+        if (nome != null && !nome.isEmpty() && sexo != null && !sexo.isEmpty()) {
+            return pessoaRepository.findPessoaByNameSexo(nome, sexo);
+        } else if (nome != null && !nome.isEmpty()) {
+            return pessoaRepository.findPessoaByName(nome);
+        } else if (sexo != null && !sexo.isEmpty()) {
+            return pessoaRepository.findPessoaBySexo(sexo);
+        } else {
+            return (List<Pessoa>) pessoaRepository.findAll();
+        }
+    }
+
+    @GetMapping("**/imprimirpdf")
+    public void imprimePdf(@RequestParam("nomepesquisa") String nomepesquisa,
+                           @RequestParam("pesqsexo") String pesqsexo,
+                           HttpServletRequest request,
+                           HttpServletResponse response) throws Exception {
+
+        List<Pessoa> pessoas = pesquisarLogica(nomepesquisa, pesqsexo); // chama uma função comum de busca
+
+        byte[] pdf = reportUtil.gerarRelatorio(pessoas, "RelatorioPessoa", request.getServletContext());
+        response.setContentLength(pdf.length);
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=\"relatorio.pdf\"");
+        response.getOutputStream().write(pdf);
+        response.getOutputStream().flush();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/telefones/{idpessoa}")
