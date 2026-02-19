@@ -43,7 +43,7 @@ public class PessoaController {
     public ModelAndView inicio(){
         ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
         modelAndView.addObject("pessoaobj", new Pessoa());
-      //  Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
+        //Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
         modelAndView.addObject("pessoas");
         modelAndView.addObject("profissoes", profissaoRepository.findAll());
         return modelAndView;
@@ -66,6 +66,7 @@ public class PessoaController {
                 msg.add(objectError.getDefaultMessage()); // vem das anotaçoes nas Entity
             }
             modelAndView.addObject("msg",msg);
+            modelAndView.addObject("profissoes", profissaoRepository.findAll());
 
             return modelAndView;
         }
@@ -94,6 +95,7 @@ public class PessoaController {
 
         ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
         modelAndView.addObject("pessoaobj", pessoa.get());
+        modelAndView.addObject("profissoes", profissaoRepository.findAll());
         return modelAndView;
     }
 

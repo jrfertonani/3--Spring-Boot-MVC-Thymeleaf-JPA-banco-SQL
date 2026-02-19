@@ -106,9 +106,9 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
                             </div>
 
                              <div class="input-field col s4">
-                                 <label for="profissao" class="active">Profissao</label>
+                                 <label for="profissao" class="active">Profissão</label>
                                  <select class="browser-default" th:field="*{profissao}" id="profissao">
-                                     <option value="" disabled selected>--selecione--</option>
+                                     <option th:each="p : ${profissoes}" th:value="${p.id}" th:text="${p.nome}"></option>
                                  </select>
                              </div>
 

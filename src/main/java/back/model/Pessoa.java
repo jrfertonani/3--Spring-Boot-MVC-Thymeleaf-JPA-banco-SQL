@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -38,6 +36,10 @@ public class Pessoa implements Serializable {
 
     @Min(value = 18, message = "Idade inválida!")
     private int idade;
+
+    @ManyToOne
+    @JoinColumn(name = "profissao_id", foreignKey = @ForeignKey(name = "fk_pessoa_profissao"))
+    private Profissao profissao;
 
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Telefone> telefones;
@@ -156,4 +158,14 @@ public class Pessoa implements Serializable {
     public void setSexopessoa(String sexopessoa){
         this.sexopessoa = sexopessoa;
     }
+
+    public Profissao getProfissao(){
+        return profissao;
+    }
+
+    public void setProfissao(Profissao profissao){
+        this.profissao = profissao;
+    }
+
+
 }
