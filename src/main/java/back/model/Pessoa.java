@@ -44,6 +44,9 @@ public class Pessoa implements Serializable {
     @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Telefone> telefones;
 
+    @Enumerated(EnumType.STRING)
+    private Cargo cargo;
+
     public Pessoa() {}
 
     public Pessoa(Long id, String nome, String sobrenome, String cep, String rua,
@@ -167,5 +170,12 @@ public class Pessoa implements Serializable {
         this.profissao = profissao;
     }
 
+    public Cargo getCargo(){
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo){
+        this.cargo = cargo;
+    }
 
 }

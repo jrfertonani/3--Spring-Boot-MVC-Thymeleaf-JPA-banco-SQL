@@ -112,6 +112,13 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
                                  </select>
                              </div>
 
+                             <div class="input-field col s4">
+                                 <label for="cargo" class="active">Cargo</label>
+                                 <select class="browser-default" th:field="*{cargo}" id="cargo">
+                                     <option th:each="c : ${T(back.model.Cargo).values()}" th:value="${c}" th:text="${c.nome}"></option>
+                                 </select>
+                             </div>
+
                         </div>
                         <input class="waves-effect waves-light btn" type="submit" value="Salvar">
                         <a class="waves-effect waves-light btn" href="/listapessoas">lista de pessoas</a>
