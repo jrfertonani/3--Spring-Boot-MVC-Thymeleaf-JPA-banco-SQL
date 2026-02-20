@@ -172,7 +172,7 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
                 <th>Excluir</th>
             </tr>
         </thead>
-        <tr th:each="pessoa : ${pessoas}">
+        <tr th:each="pessoa : ${pessoas.content}">
                 <Td th:text="${pessoa.id}"></Td>
                 <Td> <a th:href="@{/telefones/{idpessoa}(idpessoa=${pessoa.id})}"><span th:text="${pessoa.nome}"></span></a></Td>
                 <Td th:text="${pessoa.sobrenome}"></Td>

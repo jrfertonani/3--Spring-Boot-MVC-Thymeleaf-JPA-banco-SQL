@@ -9,8 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -50,6 +53,16 @@ public class PessoaController {
         return modelAndView;
     }
 
+    @GetMapping("/pessoaspag")
+    public ModelAndView carregaPessoaPorPaginacao(@PageableDefault(size = 5)Pageable pageable,
+                                                  ModelAndView model){
+        Page<Pessoa> pagePessoa = pessoaRepository.findAll(pageable);
+        model.addObject("pessoas",pagePessoa);
+        model.addObject("pessoaobj", new Pessoa());
+        model.setViewName("cadastro/cadastropessoa");
+
+        return model;
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "**/salvarpessoa")
     public ModelAndView salvar (@Valid Pessoa pessoa, BindingResult bindingResult){
