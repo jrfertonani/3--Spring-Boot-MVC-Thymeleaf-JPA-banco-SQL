@@ -10,12 +10,16 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwLAQgxVSNgt4="
             crossorigin="anonymous"></script>
 
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js"></script>
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet"/>
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
     <style type="text/css">
         html { margin-top: 5%
           margin: 0;
@@ -36,8 +40,10 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
     <meta charset="UTF-8">
     <title>Cad. Pessoa</title>
 </head>
+
 <body>
     <h5>Spring Boot + Thymeleaf + Material Design Life</h5>
+    <br>
     <fieldset>
         <legend>Cadastro de pessoas</legend>
         <div class="row">
@@ -72,38 +78,37 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
                              </div>
                              <div class="input-field col s4">
                                  <label for="cep" class="active">Cep</label>
-                                 <input th:field="*{cep}" id="cep" name="cep" placeholder="CEP"
-                                 >
+                                 <input th:field="*{cep}" id="cep" name="cep" placeholder="CEP">
                              </div>
                              <div class="input-field col s4">
                                  <label for="rua" class="active">Rua</label>
-                                 <input th:field="*{rua}" id="rua" name="rua" placeholder="RUA"
-                                 >
+                                 <input th:field="*{rua}" id="rua" name="rua" placeholder="RUA">
                              </div>
                              <div class="input-field col s4">
                                  <label for="bairro" class="active">Bairro</label>
-                                 <input th:field="*{bairro}" id="bairro" name="bairro" placeholder="BAIRRO"
-                                 >
+                                 <input th:field="*{bairro}" id="bairro" name="bairro" placeholder="BAIRRO"                                 >
                              </div>
                              <div class="input-field col s4">
                                  <label for="cidade" class="active">Cidade</label>
-                                 <input th:field="*{cidade}" id="cidade" name="cidade" placeholder="CIDADE"
-                                 >
+                                 <input th:field="*{cidade}" id="cidade" name="cidade" placeholder="CIDADE">
                              </div>
-                             <div class="input-field col s4">
+                             <div class="input-field col s2">
                                  <label for="uf" class="active">Uf</label>
-                                 <input th:field="*{uf}" id="uf" name="uf" placeholder="UF"
-                                 >
+                                 <input th:field="*{uf}" id="uf" name="uf" placeholder="UF">
                              </div>
                              <div class="input-field col s4">
                                  <label for="ibge" class="active">Ibge</label>
-                                 <input th:field="*{ibge}" id="ibge" name="ibge" placeholder="IBJE"
-                                 >
+                                 <input th:field="*{ibge}" id="ibge" name="ibge" placeholder="IBJE">
                              </div>
-                            <div class="input-field col s4"  sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div class="input-field col s2"  sec:authorize="hasRole('ROLE_ADMIN')">
                                 <label for="idade" class="active">Idade</label>
                                 <input th:field="*{idade}"  type="text" placeholder="IDADE" id="Idade" name="idade" class="validate">
                             </div>
+
+                             <div class="input-field col s4">
+                                 <label for="dataNascimento" class="active">Data nascimento</label>
+                                 <input th:field="*{dataNascimento}" type="date" placeholder="Data Nasc." id="dataNascimento" name="dataNascimento">
+                             </div>
 
                              <div class="input-field col s4">
                                  <label for="profissao" class="active">Profissão</label>
@@ -186,6 +191,14 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
         $(document).ready(function() {
+
+            $('#dataNascimento').datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                uiLibrary: 'materialdesign',
+                format: 'dd/mm/yyyy',
+                locale: 'pt-br'
+            });
 
             function limpa_formulário_cep() {
                 // Limpa valores do formulário de cep.

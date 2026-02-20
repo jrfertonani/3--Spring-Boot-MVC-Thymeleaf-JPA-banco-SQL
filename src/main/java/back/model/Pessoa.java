@@ -4,11 +4,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,24 +53,11 @@ public class Pessoa implements Serializable {
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
 
-    public Pessoa() {}
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    private Date dataNascimento;
 
-    public Pessoa(Long id, String nome, String sobrenome, String cep, String rua,
-                  String bairro, String cidade, String uf, String ibge,
-                  String sexopessoa, int idade, List<Telefone> telefones) {
-        this.id = id;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.cep = cep;
-        this.rua = rua;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.uf = uf;
-        this.ibge = ibge;
-        this.sexopessoa = sexopessoa;
-        this.idade = idade;
-        this.telefones = telefones;
-    }
+
 
     public Long getId() {
         return id;
@@ -177,5 +170,14 @@ public class Pessoa implements Serializable {
     public void setCargo(Cargo cargo){
         this.cargo = cargo;
     }
+
+    public Date getDataNascimento(){
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento){
+        this.dataNascimento = dataNascimento;
+    }
+
 
 }
