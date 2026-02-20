@@ -57,6 +57,9 @@ public class Pessoa implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
+    @Lob
+    private byte[] curriiculo;
+
 
 
     public Long getId() {
@@ -177,6 +180,14 @@ public class Pessoa implements Serializable {
 
     public void setDataNascimento(Date dataNascimento){
         this.dataNascimento = dataNascimento;
+    }
+
+    public byte[] getCurriiculo(){
+        return curriiculo;
+    }
+
+    public void setCurriiculo(byte[] curriiculo){
+        this.curriiculo = curriiculo;
     }
 
 

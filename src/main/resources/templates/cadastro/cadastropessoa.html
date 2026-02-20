@@ -192,14 +192,6 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
     <script>
         $(document).ready(function() {
 
-            $('#dataNascimento').datepicker({
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                uiLibrary: 'materialdesign',
-                format: 'dd/mm/yyyy',
-                locale: 'pt-br'
-            });
-
             function limpa_formulário_cep() {
                 // Limpa valores do formulário de cep.
                 $("#rua").val("");
@@ -261,6 +253,14 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
                     //cep sem valor, limpa formulário.
                     limpa_formulário_cep();
                 }
+            });
+
+                 $('#dataNascimento').datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                uiLibrary: 'materialdesign',
+                format: 'dd/mm/yyyy',
+                locale: 'pt-br'
             });
         });
 
