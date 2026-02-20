@@ -30,15 +30,30 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
             min-height: 100vh;
         };
 
-    table.striped > tbody > tr:nth-child(odd) {
-        background-color: rgba(158, 154, 154, 0.5);
-    }
+        table.striped > tbody > tr:nth-child(odd) {
+            background-color: rgba(158, 154, 154, 0.5);
+        }
 
-    form input[type=submit]{
-    color: white;}
+        form input[type=submit]{
+        color: white;}
+
+        table{
+        width: 100%
+        }
+
+<!--        table td, table th{-->
+<!--            border: 1px solid grey;-->
+<!--        }-->
+
+<!--        table th{-->
+<!--            background: #eee;-->
+<!--        }-->
+
+
     </style>
     <meta charset="UTF-8">
     <title>Cad. Pessoa</title>
+
 </head>
 
 <body>
@@ -184,7 +199,22 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
         <div th:if="${pessoas != null and #lists.isEmpty(pessoas)}">
             <p style="color: red;">Nenhuma pessoa encontrada com esse nome.</p>
         </div>
+    <div class="row center-align" style="margin-top: 30px;">
 
+        <span th:if="${pessoas.hasPrevious()}">
+            <a th:href="@{/pessoaspag(page=${pessoas.number-1}, siza=${pessoas.size})}">Anterior</a>
+        </span>
+        <th:block th:each="i: ${#numbers.sequence(0, pessoas.totalPages - 1)}">
+            <a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size})}"
+               style="margin: 0 5px; text-decoration: none;">
+                [[ ${i} + 1 ]]
+            </a>
+        </th:block>
+
+        <span th:if="${pessoas.hasNext()}">
+            <a th:href="@{/pessoaspag(page=${pessoas.number+1}, siza=${pessoas.size})}">Proximo</a>
+        </span>
+    </div>
 
 
 
