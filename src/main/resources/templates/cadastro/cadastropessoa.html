@@ -154,7 +154,9 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
             <div class="row">
                 <div class="input-field col s4">
                     <label for="nomepesquisa" class="active">Pesquisar por nome: </label>
-                    <input name="nomepesquisa" id="nomepesquisa" class="validate" value="" type="text" placeholder="PESQUISAR NOME">
+                    <input name="nomepesquisa" id="nomepesquisa" class="validate" value="" type="text" placeholder="PESQUISAR NOME"
+                    th:value="${nomepesquisa}">
+
                 </div>
                 <div class="input-field col s4">
                     <label class="active" for="pesqsexo">Pesquisa sexo: </label>
@@ -202,17 +204,17 @@ xmlns:sec="http://www.thymeLeaf.org/extras/spring-security">
     <div class="row center-align" style="margin-top: 30px;">
 
         <span th:if="${pessoas.hasPrevious()}">
-            <a th:href="@{/pessoaspag(page=${pessoas.number-1}, siza=${pessoas.size})}">Anterior</a>
+            <a th:href="@{/pessoaspag(page=${pessoas.number-1}, siza=${pessoas.size}, nomepesquisa=${nomepesquisa})}">Anterior</a>
         </span>
         <th:block th:each="i: ${#numbers.sequence(0, pessoas.totalPages - 1)}">
-            <a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size})}"
+            <a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}"
                style="margin: 0 5px; text-decoration: none;">
                 [[ ${i} + 1 ]]
             </a>
         </th:block>
 
         <span th:if="${pessoas.hasNext()}">
-            <a th:href="@{/pessoaspag(page=${pessoas.number+1}, siza=${pessoas.size})}">Proximo</a>
+            <a th:href="@{/pessoaspag(page=${pessoas.number+1}, siza=${pessoas.size}, nomepesquisa=${nomepesquisa})}">Proximo</a>
         </span>
     </div>
 
